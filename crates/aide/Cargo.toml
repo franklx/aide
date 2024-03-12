@@ -1,6 +1,6 @@
 [package]
 name = "aide"
-version = "0.13.3"
+version = "0.13.3-frk1"
 authors = ["tamasfe"]
 edition = "2021"
 keywords = ["generate", "api", "openapi", "documentation", "specification"]
@@ -31,6 +31,7 @@ cfg-if = "1.0.0"
 # custom axum extractors
 serde_qs = { version = "0.12.0", optional = true }
 jwt-authorizer = { version = "0.14", default-features = false, optional = true }
+axum-login = { version = "0.14", optional = true }
 
 [features]
 macros = ["dep:aide-macros"]
@@ -51,6 +52,7 @@ axum-extra-query = ["axum", "axum-extra", "axum-extra/query"]
 
 serde_qs = ["dep:serde_qs"]
 jwt-authorizer = ["dep:jwt-authorizer"]
+axum-login = ["dep:axum-login"]
 
 [dev-dependencies]
 serde = { version = "1.0.144", features = ["derive"] }
