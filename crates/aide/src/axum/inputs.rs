@@ -448,36 +448,5 @@ mod axum_login {
     use crate::OperationInput;
     use ::axum_login::{AuthSession, AuthnBackend};
 
-    impl<T: AuthnBackend> OperationInput for AuthSession<T> {
-        fn operation_input(
-            ctx: &mut crate::gen::GenContext,
-            operation: &mut crate::openapi::Operation,
-        ) {
-            let s = ctx.schema.subschema_for::<String>();
-            add_parameters(
-                ctx,
-                operation,
-                [Parameter::Header {
-                    parameter_data: ParameterData {
-                        name: "Authorization".to_string(),
-                        description: Some("Session authorization data".to_string()),
-                        required: true,
-                        format: crate::openapi::ParameterSchemaOrContent::Schema(
-                            openapi::SchemaObject {
-                                json_schema: s,
-                                example: None,
-                                external_docs: None,
-                            },
-                        ),
-                        extensions: Default::default(),
-                        deprecated: None,
-                        example: None,
-                        examples: IndexMap::default(),
-                        explode: None,
-                    },
-                    style: openapi::HeaderStyle::Simple,
-                }],
-            );
-        }
-    }
+    impl<T: AuthnBackend> OperationInput for AuthSession<T> {}
 }

@@ -429,9 +429,30 @@ impl<'a> OperationOutput for Cow<'a, [u8]> {
 // - `(Parts, T1, .., Tn, impl IntoResponse)` where `T1` to `Tn` all implement `IntoResponseParts`.
 // - `(Response<()>, T1, .., Tn, impl IntoResponse)` where `T1` to `Tn` all implement `IntoResponseParts`.
 
-impl<T1, T2> OperationOutput for (T1, T2) {
-    type Inner = Infallible;
+impl<S, T> OperationOutput for (S, T)
+where
+    S: OperationOutput,
+    T: OperationOutput,
+{
+    type Inner = <T as OperationOutput>::Inner;
+
+    fn operation_response(
+        ctx: &mut crate::gen::GenContext,
+        operation: &mut Operation,
+    ) -> Option<Response> {
+        T::operation_response(ctx, operation)
+    }
+
+    fn inferred_responses(
+        ctx: &mut crate::gen::GenContext,
+        operation: &mut Operation,
+    ) -> Vec<(Option<u16>, Response)> {
+        let mut responses = T::inferred_responses(ctx, operation);
+        responses.extend(S::inferred_responses(ctx, operation));
+        responses
+    }
 }
+
 impl<T1, T2, T3> OperationOutput for (T1, T2, T3) {
     type Inner = Infallible;
 }
