@@ -10,12 +10,12 @@ description = "Type safe multipart/form-data handling for axum and aide"
 readme = "README.md"
 
 [dependencies]
-aide = { version = "0.13", path = "../aide" }
-axum = "0.7.4"
-axum_typed_multipart = { version = "0.11.0" }
-indexmap = "2.2.2"
-schemars = "0.8.16"
+aide = { version = "0.13.3-frk1", path = "../aide" }
+axum = "0.7"
+axum_typed_multipart = { version = "0.11" }
+indexmap = "2"
+schemars = "0.8"
 
 [dev-dependencies]
-bytes = "1.5.0"
-schemars = { version = "0.8.16" , features = ["bytes"]}
+bytes = "1"
+schemars = { version = "0.8" , features = ["bytes"]}

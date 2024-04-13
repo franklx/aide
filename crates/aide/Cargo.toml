@@ -10,26 +10,26 @@ description = "A code-first API documentation library"
 readme = "README.md"
 
 [dependencies]
-indexmap = { version = "2.1", features = ["serde"] }
-schemars = { version = "0.8.16", features = ["impl_json_schema", "indexmap2"] }
+indexmap = { version = "2", features = ["serde"] }
+schemars = { version = "0.8", features = ["impl_json_schema", "indexmap2"] }
 serde = "1"
 serde_json = "1"
 thiserror = "1"
 tracing = "0"
-aide-macros = { version = "0.7.0", path = "../aide-macros", optional = true }
+aide-macros = { version = "0.7", path = "../aide-macros", optional = true }
 
 bytes = { version = "1", optional = true }
-http = { version = "1.0.0", optional = true }
+http = { version = "1", optional = true }
 
-axum = { version = "0.7.1", optional = true, default-features = false }
-axum-extra = { version = "0.9.0", optional = true }
+axum = { version = "0.7", optional = true, default-features = false, features = ["form", "matched-path", "query"] }
+axum-extra = { version = "0.9", optional = true }
 tower-layer = { version = "0.3", optional = true }
 tower-service = { version = "0.3", optional = true }
-cfg-if = "1.0.0"
+cfg-if = "1"
 
 
 # custom axum extractors
-serde_qs = { version = "0.12.0", optional = true }
+serde_qs = { version = "0.13", optional = true }
 jwt-authorizer = { version = "0.14", default-features = false, optional = true }
 axum-login = { version = "0.15", optional = true }
 
@@ -56,8 +56,8 @@ jwt-authorizer = ["dep:jwt-authorizer"]
 axum-login = ["dep:axum-login"]
 
 [dev-dependencies]
-serde = { version = "1.0.144", features = ["derive"] }
-tokio = { version = "1.21.0", features = ["macros", "rt-multi-thread"] }
+serde = { version = "1", features = ["derive"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 
 [package.metadata.docs.rs]
 all-features = true
