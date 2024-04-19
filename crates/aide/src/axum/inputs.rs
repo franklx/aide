@@ -453,6 +453,8 @@ mod axum_login {
     use super::*;
     use crate::OperationInput;
     use ::axum_login::{AuthSession, AuthnBackend};
+    use ::axum_login::tower_sessions::Session;
 
     impl<T: AuthnBackend> OperationInput for AuthSession<T> {}
+    impl OperationInput for Session {}
 }
