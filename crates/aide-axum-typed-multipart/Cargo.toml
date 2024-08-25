@@ -10,7 +10,7 @@ description = "Type safe multipart/form-data handling for axum and aide"
 readme = "README.md"
 
 [dependencies]
-aide = { version = "0.13.4-frk1", path = "../aide" }
+aide = { registry = "elleci", version = "0.13", path = "../aide" }
 axum = "0.7"
 axum_typed_multipart = { version = "0.11" }
 indexmap = "2"
