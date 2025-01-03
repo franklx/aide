@@ -9,9 +9,10 @@ use crate::{
 use axum::{
     body::Body,
     extract::{
-        Extension, Form, Host, Json, MatchedPath, OriginalUri, Path, Query, RawQuery, State,
+        Extension, Form, Json, MatchedPath, OriginalUri, Path, Query, RawQuery, State,
     },
 };
+use axum_extra::extract::Host;
 
 #[cfg(not(feature = "axum-wasm"))]
 use axum::extract::ConnectInfo;

@@ -1,6 +1,6 @@
 [package]
 name = "aide"
-version = "0.13.5+frk.2"
+version = "0.13.6+frk.4"
 authors = ["tamasfe"]
 edition = "2021"
 keywords = ["generate", "api", "openapi", "documentation", "specification"]
@@ -16,15 +16,15 @@ indexmap = { version = "2", features = ["serde"] }
 schemars = { version = "0.8", features = ["impl_json_schema", "indexmap2"] }
 serde = "1"
 serde_json = "1"
-thiserror = "1"
+thiserror = "2"
 tracing = "0"
 aide-macros = { version = "0.7", path = "../aide-macros", optional = true }
 
 bytes = { version = "1", optional = true }
 http = { version = "1", optional = true }
 
-axum = { version = "0.7", optional = true, default-features = false, features = ["form", "matched-path", "query"] }
-axum-extra = { version = "0.9", optional = true }
+axum = { version = "0.8", optional = true, default-features = false, features = ["form", "json", "matched-path", "query"] }
+axum-extra = { version = "0.10", optional = true }
 tower-layer = { version = "0.3", optional = true }
 tower-service = { version = "0.3", optional = true }
 cfg-if = "1"
@@ -33,7 +33,7 @@ cfg-if = "1"
 # custom axum extractors
 serde_qs = { version = "0.13", optional = true }
 jwt-authorizer = { version = "0.15", default-features = false, optional = true }
-axum-login = { version = "0.16", optional = true }
+axum-login = { registry = "elleci", version = "0.16", optional = true }
 
 [features]
 macros = ["dep:aide-macros"]

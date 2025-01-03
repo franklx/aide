@@ -65,7 +65,7 @@ impl<T> OperationOutput for NoApi<T> {
 mod axum {
     use axum::extract::{FromRequest, FromRequestParts};
     use axum::response::{IntoResponse, IntoResponseParts, Response, ResponseParts};
-    use axum::{async_trait, body::Body};
+    use axum::body::Body;
     use http::request::Parts;
     use http::Request;
 
@@ -91,7 +91,6 @@ mod axum {
         }
     }
 
-    #[async_trait]
     impl<T, S> FromRequestParts<S> for NoApi<T>
     where
         T: FromRequestParts<S>,
@@ -104,7 +103,6 @@ mod axum {
         }
     }
 
-    #[async_trait]
     impl<T, S> FromRequest<S> for NoApi<T>
     where
         T: FromRequest<S>,

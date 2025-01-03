@@ -16,12 +16,11 @@ use crate::{
 ///
 /// # Examples
 ///
-/// The path `/users/:id` is turned into `/users/{id}`.
-/// The path `/:id/:repo/*tree` is turned into `/{id}/{repo}/{tree+}`.
+/// The path `/{id}/{repo}/{*tree}` is turned into `/{id}/{repo}/{tree+}`.
 
 #[must_use]
 pub fn path_colon_params(s: &str) -> Cow<str> {
-    if !s.contains(':') {
+    if !s.contains('*') {
         return s.into();
     }
 
@@ -36,29 +35,22 @@ pub fn path_colon_params(s: &str) -> Cow<str> {
     let mut state = State::None;
     for c in s.chars() {
         match (state, c) {
-            (State::None, ':') => {
-                rewritten.push('{');
+            (State::None, '{') => {
+                rewritten.push(c);
                 state = State::WasParam;
             }
-            (State::WasParam, '/') => {
-                rewritten.push('}');
+            (State::WasWildcard, '}') => {
+                rewritten.push('+');
                 rewritten.push(c);
                 state = State::None;
             }
-            (_, '*') => {
-                rewritten.push('{');
+            (State::WasParam, '*') => {
                 state = State::WasWildcard;
             }
             (_, _) => {
                 rewritten.push(c);
             }
         }
-    }
-
-    match state {
-        State::WasParam => rewritten += "}",
-        State::WasWildcard => rewritten += "+}",
-        _ => {}
     }
 
     rewritten.into()
@@ -255,13 +247,8 @@ mod tests {
 
     #[test]
     fn test_path_colon_params() {
-        assert_eq!(path_colon_params("/users/:id"), "/users/{id}");
         assert_eq!(
-            path_colon_params("/users/:id/addresses/:address-id"),
-            "/users/{id}/addresses/{address-id}"
-        );
-        assert_eq!(
-            path_colon_params("/:id/:repo/*tree"),
+            path_colon_params("/{id}/{repo}/{*tree}"),
             "/{id}/{repo}/{tree+}"
         );
     }
