@@ -28,10 +28,7 @@ use axum::{
 };
 use http::{Request, StatusCode};
 use itertools::Itertools;
-use jsonschema::{
-    output::{BasicOutput, ErrorDescription, OutputUnit},
-    JSONSchema,
-};
+use jsonschema::{output::{BasicOutput, ErrorDescription, OutputUnit}, Validator};
 use schemars::{
     gen::{SchemaGenerator, SchemaSettings},
     JsonSchema,
@@ -64,7 +61,7 @@ where
         let validation_result = CONTEXT.with(|ctx| {
             let ctx = &mut *ctx.borrow_mut();
             let schema = ctx.schemas.entry(TypeId::of::<T>()).or_insert_with(|| {
-                match jsonschema::JSONSchema::compile(
+                match jsonschema::validator_for(
                     &serde_json::to_value(ctx.generator.root_schema_for::<T>()).unwrap(),
                 ) {
                     Ok(s) => s,
@@ -74,7 +71,7 @@ where
                             type_name = type_name::<T>(),
                             "invalid JSON schema for type"
                         );
-                        JSONSchema::compile(&Value::Object(Map::default())).unwrap()
+                        jsonschema::validator_for(&Value::Object(Map::default())).unwrap()
                     }
                 }
             });
@@ -113,7 +110,7 @@ thread_local! {
 
 struct SchemaContext {
     generator: SchemaGenerator,
-    schemas: HashMap<TypeId, JSONSchema>,
+    schemas: HashMap<TypeId, Validator>,
 }
 
 impl SchemaContext {

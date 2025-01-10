@@ -29,6 +29,8 @@ tower-layer = { version = "0.3", optional = true }
 tower-service = { version = "0.3", optional = true }
 cfg-if = "1"
 
+axum-login = { registry = "elleci", version = "0.17", optional = true }
+
 [features]
 macros = ["dep:aide-macros"]
 redoc = []
@@ -53,6 +55,8 @@ axum-extra-form = ["axum-extra", "axum-extra/form"]
 axum-extra-headers = ["axum-extra/typed-header"]
 axum-extra-query = ["axum-extra", "axum-extra/query"]
 axum-extra-json-deserializer = ["axum-extra", "axum-extra/json-deserializer"]
+
+axum-login = ["dep:axum-login"]
 
 [dev-dependencies]
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }

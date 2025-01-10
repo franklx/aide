@@ -10,7 +10,6 @@ use axum::{
     body::Body,
     extract::{Extension, Path, RawQuery, State},
 };
-use axum_extra::extract::Host;
 
 use indexmap::IndexMap;
 use schemars::{

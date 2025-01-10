@@ -1,6 +1,6 @@
 [package]
 name = "axum-jsonschema"
-version = "0.8.0"
+version = "0.8.0+frk.5"
 edition = "2021"
 authors = ["tamasfe"]
 keywords = ["web", "axum", "json"]
@@ -8,6 +8,8 @@ repository = "https://github.com/tamasfe/aide"
 license = "MIT OR Apache-2.0"
 description = "Request JSON schema validation for axum"
 readme = "README.md"
+
+publish = ["elleci"]
 
 [dependencies]
 aide = { registry = "elleci", version = "0.14", path = "../aide", optional = true, features = ["axum-json"] }
