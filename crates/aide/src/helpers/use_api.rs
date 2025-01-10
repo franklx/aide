@@ -107,9 +107,9 @@ where
 
 #[cfg(feature = "axum")]
 mod axum {
+    use axum::body::Body;
     use axum::extract::{FromRequest, FromRequestParts};
     use axum::response::{IntoResponse, IntoResponseParts, Response, ResponseParts};
-    use axum::body::Body;
     use http::request::Parts;
     use http::Request;
 

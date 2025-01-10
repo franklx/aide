@@ -277,7 +277,7 @@ where
         <L::Service as Service<Request<Body>>>::Future: Send + 'static,
         E: 'static,
         S: 'static,
-        NewError: 'static,
+        NewError: 'static + std::marker::Sync,
     {
         ApiMethodRouter {
             router: self.router.layer(layer),

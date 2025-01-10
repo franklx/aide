@@ -10,15 +10,11 @@ description = "Request JSON schema validation for axum"
 readme = "README.md"
 
 [dependencies]
-aide = { registry = "elleci", version = "0.13", path = "../aide", optional = true, features = [
-    "axum",
-] }
-async-trait = "0.1"
-axum = { version = "0.7", default-features = false, features = ["json"] }
+aide = { registry = "elleci", version = "0.14", path = "../aide", optional = true, features = ["axum-json"] }
+axum = { version = "0.8", default-features = false, features = ["json"] }
 http = "1"
-http-body = "1"
-itertools = "0.12"
-jsonschema = { version = "0.17", default-features = false }
+itertools = "0.14"
+jsonschema = { version = "0.28", default-features = false }
 schemars = { version = "0.8", default-features = false }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"

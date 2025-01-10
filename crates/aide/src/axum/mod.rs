@@ -177,7 +177,7 @@ use crate::{
     util::merge_paths,
     OperationInput, OperationOutput,
 };
-#[cfg(not(feature = "axum-wasm"))]
+#[cfg(feature = "axum-tokio")]
 use axum::extract::connect_info::IntoMakeServiceWithConnectInfo;
 use axum::{
     body::{Body, Bytes, HttpBody},
@@ -195,12 +195,8 @@ use tower_service::Service;
 #[cfg(feature = "axum-extra")]
 use axum_extra::routing::RouterExt as _;
 
-use crate::{
-    transform::{TransformOpenApi, TransformPathItem},
-    util::path_colon_params,
-};
-
 use self::routing::ApiMethodRouter;
+use crate::transform::{TransformOpenApi, TransformPathItem};
 
 mod inputs;
 mod outputs;
@@ -438,12 +434,7 @@ where
 
         paths.paths = mem::take(&mut self.paths)
             .into_iter()
-            .map(|(route, path)| {
-                (
-                    path_colon_params(&route).into_owned(),
-                    ReferenceOr::Item(path),
-                )
-            })
+            .map(|(route, path)| (route, ReferenceOr::Item(path)))
             .collect();
 
         let _ = transform(TransformOpenApi::new(api));
@@ -690,7 +681,7 @@ impl ApiRouter<()> {
     /// See [`axum::Router::into_make_service_with_connect_info`] for details.
     #[tracing::instrument(skip_all)]
     #[must_use]
-    #[cfg(not(feature = "axum-wasm"))]
+    #[cfg(feature = "axum-tokio")]
     pub fn into_make_service_with_connect_info<C>(
         self,
     ) -> IntoMakeServiceWithConnectInfo<Router<()>, C> {
@@ -863,7 +854,7 @@ mod tests {
     #[test]
     fn test_nesting_with_nondefault_state() {
         let _app: ApiRouter = ApiRouter::new()
-            .nest_api_service("/", ApiRouter::new().with_state(1_isize))
+            .nest_api_service("/home", ApiRouter::new().with_state(1_isize))
             .with_state(1_usize);
     }
 

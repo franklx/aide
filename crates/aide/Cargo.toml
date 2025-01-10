@@ -1,6 +1,6 @@
 [package]
 name = "aide"
-version = "0.13.6+frk.5"
+version = "0.14.0+frk.5"
 authors = ["tamasfe"]
 edition = "2021"
 keywords = ["generate", "api", "openapi", "documentation", "specification"]
@@ -14,26 +14,20 @@ publish = ["elleci"]
 [dependencies]
 indexmap = { version = "2", features = ["serde"] }
 schemars = { version = "0.8", features = ["impl_json_schema", "indexmap2"] }
-serde = "1"
+serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 thiserror = "2"
-tracing = "0"
+tracing = "0.1"
 aide-macros = { version = "0.7", path = "../aide-macros", optional = true }
 
 bytes = { version = "1", optional = true }
 http = { version = "1", optional = true }
 
-axum = { version = "0.8", optional = true, default-features = false, features = ["form", "json", "matched-path", "query"] }
+axum = { version = "0.8", optional = true, default-features = false }
 axum-extra = { version = "0.10", optional = true }
 tower-layer = { version = "0.3", optional = true }
 tower-service = { version = "0.3", optional = true }
 cfg-if = "1"
-
-
-# custom axum extractors
-serde_qs = { version = "0.13", optional = true }
-jwt-authorizer = { version = "0.15", default-features = false, optional = true }
-axum-login = { registry = "elleci", version = "0.17", optional = true }
 
 [features]
 macros = ["dep:aide-macros"]
@@ -42,25 +36,25 @@ swagger = []
 scalar = []
 skip_serializing_defaults = []
 
-axum = ["dep:axum", "bytes", "http", "dep:tower-layer", "dep:tower-service", "serde_qs?/axum"]
-axum-headers = ["axum-extra/typed-header"]
-axum-ws = ["axum/ws"]
-axum-multipart = ["axum/multipart"]
+axum = ["dep:axum", "bytes", "http", "dep:tower-layer", "dep:tower-service"]
+axum-form = ["axum", "axum/form"]
+axum-json = ["axum", "axum/json"]
+axum-matched-path = ["axum", "axum/matched-path"]
+axum-multipart = ["axum", "axum/multipart"]
+axum-original-uri = ["axum", "axum/original-uri"]
+axum-query = ["axum", "axum/query"]
+axum-tokio = ["axum", "axum/tokio"]
+axum-ws = ["axum", "axum/ws"]
+
 axum-extra = ["axum", "dep:axum-extra"]
-axum-extra-cookie = ["axum", "axum-extra", "axum-extra/cookie"]
-axum-extra-cookie-private = ["axum", "axum-extra", "axum-extra/cookie-private"]
-axum-extra-form = ["axum", "axum-extra", "axum-extra/form"]
-axum-extra-query = ["axum", "axum-extra", "axum-extra/query"]
-axum-extra-json-deserializer = ["axum", "axum-extra", "axum-extra/json-deserializer"]
-axum-wasm = ["axum"]
-
-
-serde_qs = ["dep:serde_qs"]
-jwt-authorizer = ["dep:jwt-authorizer"]
-axum-login = ["dep:axum-login"]
+axum-extra-cookie = ["axum-extra", "axum-extra/cookie"]
+axum-extra-cookie-private = ["axum-extra", "axum-extra/cookie-private"]
+axum-extra-form = ["axum-extra", "axum-extra/form"]
+axum-extra-headers = ["axum-extra/typed-header"]
+axum-extra-query = ["axum-extra", "axum-extra/query"]
+axum-extra-json-deserializer = ["axum-extra", "axum-extra/json-deserializer"]
 
 [dev-dependencies]
-serde = { version = "1", features = ["derive"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 
 [package.metadata.docs.rs]

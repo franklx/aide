@@ -159,9 +159,9 @@ where
 #[cfg(feature = "axum")]
 mod axum {
     use crate::helpers::with_api::ApiOverride;
+    use axum::body::Body;
     use axum::extract::{FromRequest, FromRequestParts};
     use axum::response::{IntoResponse, IntoResponseParts, Response, ResponseParts};
-    use axum::body::Body;
     use http::request::Parts;
     use http::Request;
 

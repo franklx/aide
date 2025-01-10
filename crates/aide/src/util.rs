@@ -1,60 +1,11 @@
 #![allow(clippy::all, clippy::pedantic, missing_docs, dead_code)]
 //! Miscellaneous utilities.
 
-use std::borrow::Cow;
-
 use crate::{
     gen::GenContext,
     openapi::{Operation, PathItem},
     Error,
 };
-
-/// Transform colon path params to the notation
-/// used in `OpenApi`.
-///
-/// Axum wildcard routes are not supported by OpenAPI 3 but will be indicated as a param with a trailing `+`
-///
-/// # Examples
-///
-/// The path `/{id}/{repo}/{*tree}` is turned into `/{id}/{repo}/{tree+}`.
-
-#[must_use]
-pub fn path_colon_params(s: &str) -> Cow<str> {
-    if !s.contains('*') {
-        return s.into();
-    }
-
-    let mut rewritten = String::with_capacity(s.len());
-
-    #[derive(Clone, Copy)]
-    enum State {
-        None,
-        WasParam,
-        WasWildcard,
-    }
-    let mut state = State::None;
-    for c in s.chars() {
-        match (state, c) {
-            (State::None, '{') => {
-                rewritten.push(c);
-                state = State::WasParam;
-            }
-            (State::WasWildcard, '}') => {
-                rewritten.push('+');
-                rewritten.push(c);
-                state = State::None;
-            }
-            (State::WasParam, '*') => {
-                state = State::WasWildcard;
-            }
-            (_, _) => {
-                rewritten.push(c);
-            }
-        }
-    }
-
-    rewritten.into()
-}
 
 /// Iterate over all operations in a path item.
 pub fn iter_operations_mut(
@@ -238,18 +189,5 @@ mod spec {
 
             Ok(ret)
         }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_path_colon_params() {
-        assert_eq!(
-            path_colon_params("/{id}/{repo}/{*tree}"),
-            "/{id}/{repo}/{tree+}"
-        );
     }
 }

@@ -1,19 +1,20 @@
 use crate::openapi::{MediaType, Operation, Response, SchemaObject};
-use axum::{
-    extract::rejection::{FormRejection, JsonRejection},
-    response::{Html, Redirect},
-    Form, Json,
-};
+#[cfg(feature = "axum-form")]
+use axum::extract::rejection::FormRejection;
+#[cfg(feature = "axum-json")]
+use axum::extract::rejection::JsonRejection;
+use axum::response::{Html, Redirect};
+#[cfg(any(feature = "axum-json", feature = "axum-form"))]
 use http::StatusCode;
 use indexmap::IndexMap;
-use schemars::{
-    schema::{InstanceType, SingleOrVec},
-    JsonSchema,
-};
+use schemars::schema::{InstanceType, SingleOrVec};
+#[cfg(any(feature = "axum-form", feature = "axum-json"))]
+use schemars::JsonSchema;
 
 use crate::{gen::GenContext, operation::OperationOutput};
 
-impl<T> OperationOutput for Json<T>
+#[cfg(feature = "axum-json")]
+impl<T> OperationOutput for axum::Json<T>
 where
     T: JsonSchema,
 {
@@ -61,7 +62,8 @@ where
     }
 }
 
-impl<T> OperationOutput for Form<T>
+#[cfg(feature = "axum-form")]
+impl<T> OperationOutput for axum::extract::Form<T>
 where
     T: JsonSchema,
 {
@@ -148,6 +150,7 @@ impl<T> OperationOutput for Html<T> {
     }
 }
 
+#[cfg(feature = "axum-json")]
 impl OperationOutput for JsonRejection {
     type Inner = Self;
 
@@ -172,6 +175,7 @@ impl OperationOutput for JsonRejection {
     }
 }
 
+#[cfg(feature = "axum-form")]
 impl OperationOutput for FormRejection {
     type Inner = Self;
 
@@ -196,30 +200,7 @@ impl OperationOutput for FormRejection {
     }
 }
 
-#[cfg(feature = "jwt-authorizer")]
-impl OperationOutput for jwt_authorizer::AuthError {
-    type Inner = jwt_authorizer::AuthError;
-
-    fn operation_response(ctx: &mut GenContext, operation: &mut Operation) -> Option<Response> {
-        String::operation_response(ctx, operation)
-    }
-
-    fn inferred_responses(
-        ctx: &mut crate::gen::GenContext,
-        operation: &mut Operation,
-    ) -> Vec<(Option<u16>, Response)> {
-        if let Some(res) = Self::operation_response(ctx, operation) {
-            Vec::from([
-                rejection_response(StatusCode::UNAUTHORIZED, &res),
-                rejection_response(StatusCode::INTERNAL_SERVER_ERROR, &res),
-                rejection_response(StatusCode::FORBIDDEN, &res),
-            ])
-        } else {
-            Vec::new()
-        }
-    }
-}
-
+#[cfg(any(feature = "axum-json", feature = "axum-form"))]
 fn rejection_response(status_code: StatusCode, response: &Response) -> (Option<u16>, Response) {
     (Some(status_code.as_u16()), response.clone())
 }
