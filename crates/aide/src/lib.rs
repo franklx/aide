@@ -83,16 +83,20 @@
 //!
 //! - `bytes`
 //! - `http`
-//! - `serde_qs` (when used with `axum`)
 //!
 //! ### axum integration
 //!
 //! `axum` and its features gates:
 //!
 //! - `axum`
-//! - `axum-ws`
+//! - `axum-form`
+//! - `axum-json`
+//! - `axum-matched-path`
 //! - `axum-multipart`
-//! - `axum-headers`
+//! - `axum-original-uri`
+//! - `axum-query`
+//! - `axum-tokio` (for `ConnectInfo`)
+//! - `axum-ws` (WebSockets)
 //!
 //! `axum-extra` and its features gates:
 //!
@@ -100,6 +104,7 @@
 //! - `axum-extra-cookie`
 //! - `axum-extra-cookie-private`
 //! - `axum-extra-form`
+//! - `axum-extra-headers`
 //! - `axum-extra-query`
 //! - `axum-extra-json-deserializer`
 //!
@@ -112,6 +117,7 @@
 #![warn(clippy::pedantic, missing_docs)]
 #![allow(
     clippy::default_trait_access,
+    clippy::doc_markdown,
     clippy::module_name_repetitions,
     clippy::wildcard_imports,
     clippy::too_many_lines,
