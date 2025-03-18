@@ -1,6 +1,6 @@
 [package]
 name = "aide"
-version = "0.14.1+frk.6"
+version = "0.14.2+frk.6"
 authors = ["tamasfe"]
 edition = "2021"
 keywords = ["generate", "api", "openapi", "documentation", "specification"]
@@ -22,6 +22,7 @@ aide-macros = { version = "0.8", path = "../aide-macros", optional = true }
 
 bytes = { version = "1", optional = true }
 http = { version = "1", optional = true }
+serde_qs = { version = "0.14", optional = true }
 
 axum = { version = "0.8", optional = true, default-features = false }
 axum-extra = { version = "0.10", optional = true }
@@ -37,8 +38,9 @@ redoc = []
 swagger = []
 scalar = []
 skip_serializing_defaults = []
+serde_qs = ["dep:serde_qs"]
 
-axum = ["dep:axum", "bytes", "http", "dep:tower-layer", "dep:tower-service"]
+axum = ["dep:axum", "bytes", "http", "dep:tower-layer", "dep:tower-service", "serde_qs?/axum"]
 axum-form = ["axum", "axum/form"]
 axum-json = ["axum", "axum/json"]
 axum-matched-path = ["axum", "axum/matched-path"]
