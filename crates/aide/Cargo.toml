@@ -57,6 +57,7 @@ axum-extra-form = ["axum-extra", "axum-extra/form"]
 axum-extra-headers = ["axum-extra/typed-header"]
 axum-extra-query = ["axum-extra", "axum-extra/query"]
 axum-extra-json-deserializer = ["axum-extra", "axum-extra/json-deserializer"]
+axum-extra-typed-routing = ["axum-extra", "axum-extra/typed-routing"]
 
 axum-login = ["dep:axum-login"]
 
