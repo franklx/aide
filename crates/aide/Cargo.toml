@@ -1,6 +1,6 @@
 [package]
 name = "aide"
-version = "0.15.0+frk.6"
+version = "0.15.0+frk.7"
 authors = ["tamasfe"]
 edition = "2021"
 keywords = ["generate", "api", "openapi", "documentation", "specification"]
@@ -18,7 +18,7 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 thiserror = "2"
 tracing = "0.1"
-aide-macros = { version = "0.8", path = "../aide-macros", optional = true }
+aide-macros = { registry = "elleci", version = "~0.15.0", path = "../aide-macros", optional = true }
 
 bytes = { version = "1", optional = true }
 http = { version = "1", optional = true }
@@ -57,7 +57,11 @@ axum-extra-form = ["axum-extra", "axum-extra/form"]
 axum-extra-headers = ["axum-extra/typed-header"]
 axum-extra-query = ["axum-extra", "axum-extra/query"]
 axum-extra-json-deserializer = ["axum-extra", "axum-extra/json-deserializer"]
-axum-extra-typed-routing = ["axum-extra", "axum-extra/typed-routing"]
+axum-extra-typed-routing = [
+    "axum-extra",
+    "axum-extra/typed-routing",
+    "aide-macros?/axum-extra-typed-routing",
+]
 
 axum-login = ["dep:axum-login"]
 
