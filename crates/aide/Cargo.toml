@@ -1,8 +1,8 @@
 [package]
 name = "aide"
-version = "0.15.0+frk.8"
+version = "0.15.0+frk.9"
 authors = ["tamasfe"]
-edition = "2021"
+edition = "2024"
 keywords = ["generate", "api", "openapi", "documentation", "specification"]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/tamasfe/aide"
@@ -22,7 +22,7 @@ aide-macros = { registry = "elleci", version = "~0.15.0", path = "../aide-macros
 
 bytes = { version = "1", optional = true }
 http = { version = "1", optional = true }
-serde_qs = { version = "0.14", optional = true }
+serde_qs = { version = "0.15", optional = true }
 
 axum = { version = "0.8", optional = true, default-features = false }
 axum-extra = { version = "0.10", optional = true }
@@ -30,7 +30,7 @@ tower-layer = { version = "0.3", optional = true }
 tower-service = { version = "0.3", optional = true }
 cfg-if = "1"
 
-axum-login = { registry = "elleci", version = "0.17", optional = true }
+axum-login = { registry = "elleci", version = "0.18", optional = true }
 
 [features]
 macros = ["dep:aide-macros"]
