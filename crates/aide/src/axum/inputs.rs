@@ -8,7 +8,7 @@ use crate::{
 };
 use axum::{
     body::Body,
-    extract::{Extension, Path, RawQuery, State},
+    extract::{Extension, NestedPath, Path, RawQuery, State},
 };
 
 use indexmap::IndexMap;
@@ -25,6 +25,7 @@ impl<T> OperationInput for State<T> {}
 
 impl OperationInput for Body {}
 impl OperationInput for RawQuery {}
+impl OperationInput for NestedPath {}
 
 #[cfg(feature = "axum-tokio")]
 impl<T> OperationInput for axum::extract::ConnectInfo<T> {}
