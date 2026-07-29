@@ -444,7 +444,7 @@ where
     fn inferred_responses(
         ctx: &mut crate::generate::GenContext,
         operation: &mut Operation,
-    ) -> Vec<(Option<u16>, Response)> {
+    ) -> Vec<(Option<StatusCode>, Response)> {
         let mut responses = T::inferred_responses(ctx, operation);
         responses.extend(S::inferred_responses(ctx, operation));
         responses
